@@ -1,16 +1,16 @@
-import './App.css'
-import Products from './components/Products/Products'
-
+import { PhotosGrid } from "./components/LatestPhotos/PhotosGrid";
+import { Navbar } from "./components/Navbar";
+import { SearchBar } from "./components/SearchBar";
+import "./App.css";
 
 function App() {
-
-  return (
-    <>
-      <h2>E-commerce</h2>
-      <Products id={1} title={'iPhone 14'} price={500} counter={0} />
-      <Products id={1} title={'iPhone 15'} price={600} counter={0} />
-    </>
-  )
+	return (
+		<>
+			<Navbar />
+			<SearchBar />
+			<PhotosGrid />
+		</>
+	);
 }
 
-export default App
+export default App;
