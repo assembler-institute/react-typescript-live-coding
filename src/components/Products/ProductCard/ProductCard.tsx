@@ -7,43 +7,74 @@ import { ButtonAction } from "../../../types/buttons";
 import products from "../../../assets/db/db";
 import "./products.styles.css";
 
-const ProductsContainer: FC<ProductProps | ButtonAction> = (props: any) => {
-	// const counter = "lo que el contador de cada producto diga";
+const ProductsContainer: FC<ProductProps | ButtonAction> = ({
+	cartItems,
+	setCartItems,
+	counterClicked,
+	setCounterClicked,
+}) => {
 	useEffect(() => {
-		// lógica para guardar en localStorage
-	}, []);
+		if (cartItems.length > 0) {
+			localStorage.setItem("products", JSON.stringify(cartItems));
+		}
+	}, [cartItems]);
+
+	const handleAddToCart = (id: string) => {
+		const isItemInCart = cartItems.some((item: any) => item.id === id); // Prodríamos haber usado .find() en lugar de .some() o .filter() o .map() o .reduce() para buscar el elemento en el array
+		if (isItemInCart) {
+			const updateCartItems = cartItems.map((item: any) =>
+				item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+			);
+			setCartItems(updateCartItems);
+		}
+		if (!isItemInCart) {
+			const newItem = products.find((item) => item.id === id);
+			return setCartItems([...cartItems, { ...newItem, quantity: 1 }]);
+		}
+	};
 
 	return (
-		<div className="products">
-			{products.map(({ id, img, title, price, description }) => (
-				<div className="m-2 p-2" key={id}>
-					<div className="container">
-						<div className="card">
-							<img src={img} alt="" />
-							<div className="card-body">
-								<div className="row">
-									<div className="card-title">
-										<h4>{title}</h4>
-										<h3>{price}€</h3>
+		<>
+			<div className="products">
+				{products.map(({ id, img, title, price, description, quantity }) => (
+					<div className="m-2 p-2" key={id}>
+						<div className="container">
+							<div className="card">
+								<img src={img} alt="" />
+								<div className="card-body">
+									<div className="row">
+										<div className="card-title">
+											<h4>{title}</h4>
+											<h3>{price}€</h3>
+										</div>
+										<div className="view-btn">
+											<a href="/">View Details</a>
+										</div>
 									</div>
-									<div className="view-btn">
-										<a href="/">View Details</a>
+									<hr />
+									<p>{description}</p>
+									<div className="btn-group">
+										<button
+											className="btn btn-primary"
+											onClick={() => handleAddToCart(id)}
+										>
+											Add to Cart
+										</button>
+
+										<CounterApp
+											id={id}
+											counterClicked={counterClicked}
+											setCounterClicked={setCounterClicked}
+											quantity={quantity}
+										/>
 									</div>
-								</div>
-								<hr />
-								<p>{description}</p>
-								<div className="btn-group">
-									<div className="btn">
-										<a href="/">Buy Now</a>
-									</div>
-									<CounterApp {...props} />
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
-			))}
-		</div>
+				))}
+			</div>
+		</>
 	);
 };
 

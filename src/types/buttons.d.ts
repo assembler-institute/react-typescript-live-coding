@@ -4,6 +4,7 @@ export type ButtonAction = {
 	initialValue?: number;
 	label: string;
 	action: (event: MouseEvent<HTMLButtonElement>) => void;
-	id: string;
 	display: string;
+	id: string;
+	quantity: number;
 };

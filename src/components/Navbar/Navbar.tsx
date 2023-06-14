@@ -1,4 +1,5 @@
 import * as React from "react";
+import { FC, useContext } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,11 +13,14 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
+import { UserContext } from "../../context/UserProvider";
 
 const pages = ["Products", "Pricing", "Blog"];
 const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
-export const Navbar = () => {
+export const Navbar: FC = () => {
+	const user = useContext(UserContext);
+
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null
 	);
@@ -132,7 +136,14 @@ export const Navbar = () => {
 					<Box sx={{ flexGrow: 0 }}>
 						<Tooltip title="Open settings">
 							<IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-								<Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+								<Typography
+									textAlign="center"
+									color="white"
+									sx={{ mr: 2, fontWeight: 700 }}
+								>
+									{user?.name} {user?.surname}
+								</Typography>
+								<Avatar alt="Remy Sharp" src={user?.avatar} />
 							</IconButton>
 						</Tooltip>
 						<Menu

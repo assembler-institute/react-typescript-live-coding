@@ -1,5 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Blog } from "../components";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { HomePage } from "../pages/HomePage";
 import { FC } from "react";
 import { ProductProps } from "../types/product";
@@ -12,6 +11,7 @@ export const RouterPaths: FC<ProductProps> = (props) => {
 				<Routes>
 					<Route path="/" element={<HomePage {...props} />} />
 					<Route path="/blog" element={<BlogPage />} />
+					<Route path="/*" element={<Navigate to="/" />} />
 				</Routes>
 			</BrowserRouter>
 		</>

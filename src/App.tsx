@@ -1,10 +1,13 @@
 import "./App.css";
 import { RouterPaths } from "./Routes/RouterPaths.routes";
+import { UserProvider } from "./context/UserProvider";
 
 function App(props: any) {
 	return (
 		<>
-			<RouterPaths {...props} />
+			<UserProvider {...props}>
+				<RouterPaths {...props} />
+			</UserProvider>
 		</>
 	);
 }
