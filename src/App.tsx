@@ -1,11 +1,10 @@
 import "./App.css";
-import { Navbar, ProductsContainer } from "./components";
+import { RouterPaths } from "./Routes/RouterPaths.routes";
 
 function App(props: any) {
 	return (
 		<>
-			<Navbar />
-			<ProductsContainer {...props} />
+			<RouterPaths {...props} />
 		</>
 	);
 }

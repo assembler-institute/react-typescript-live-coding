@@ -4,7 +4,7 @@ import "./counter.styles.css";
 import { v4 as uuidv4 } from "uuid";
 
 const CounterApp: FC<ButtonAction> = ({ initialValue = 0 }) => {
-	const [counter, setCounter] = useState<number>(0);
+	const [counter, setCounter] = useState<number>(initialValue);
 	const id = uuidv4();
 
 	const increaseValue = (): void => {
