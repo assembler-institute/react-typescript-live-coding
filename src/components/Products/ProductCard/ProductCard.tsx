@@ -7,7 +7,7 @@ import { ButtonAction } from "../../../types/buttons";
 import products from "../../../assets/db/db";
 import "./products.styles.css";
 
-const Cart: FC<ProductProps | ButtonAction> = (props: any) => {
+const ProductsContainer: FC<ProductProps | ButtonAction> = (props: any) => {
 	// const counter = "lo que el contador de cada producto diga";
 	useEffect(() => {
 		// lógica para guardar en localStorage
@@ -47,4 +47,4 @@ const Cart: FC<ProductProps | ButtonAction> = (props: any) => {
 	);
 };
 
-export default Cart;
+export default ProductsContainer;
