@@ -1,28 +1,30 @@
 import { FC, useEffect } from "react";
 
 import CounterApp from "../Counter/CounterApp";
-import { ProductProps } from "../../../types/product";
+import { ParentStateProps, ProductProps } from "../../../types/product";
 import { ButtonAction } from "../../../types/buttons";
 
 import products from "../../../assets/db/db";
 import "./products.styles.css";
 
-const ProductsContainer: FC<ProductProps | ButtonAction> = ({
+const ProductsContainer: FC<ButtonAction & ParentStateProps> = ({
 	cartItems,
 	setCartItems,
 	counterClicked,
 	setCounterClicked,
 }) => {
 	useEffect(() => {
-		if (cartItems.length > 0) {
+		if (cartItems !== null) {
 			localStorage.setItem("products", JSON.stringify(cartItems));
 		}
 	}, [cartItems]);
 
 	const handleAddToCart = (id: string) => {
-		const isItemInCart = cartItems.some((item: any) => item.id === id); // Prodríamos haber usado .find() en lugar de .some() o .filter() o .map() o .reduce() para buscar el elemento en el array
+		const isItemInCart = cartItems?.some(
+			(item: ProductProps) => item.id === id
+		); // Prodríamos haber usado .find() en lugar de .some() o .filter() o .map() o .reduce() para buscar el elemento en el array
 		if (isItemInCart) {
-			const updateCartItems = cartItems.map((item: any) =>
+			const updateCartItems = cartItems?.map((item: any) =>
 				item.id === id ? { ...item, quantity: item.quantity + 1 } : item
 			);
 			setCartItems(updateCartItems);

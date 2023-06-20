@@ -2,10 +2,8 @@ import { FC, useState, useContext, useEffect } from "react";
 import GridLayout from "../Grid/GridLayout";
 import ProductCard from "../ProductCard/ProductCard";
 import { Cart } from "../Cart";
-import { ProductProps } from "../../../types/product";
-// import { Link } from "react-router-dom";
+import { ParentStateProps } from "../../../types/product";
 import { UserContext } from "../../../context/UserProvider";
-import products from "../../../assets/db/db";
 
 import "./productsContainer.styles.css";
 
@@ -22,7 +20,7 @@ const loadProducts = () => {
 	return [];
 };
 
-export const ProductsContainer: FC<ProductProps> = (props: any) => {
+export const ProductsContainer: FC<ParentStateProps> = () => {
 	const [counterClicked, setCounterClicked] = useState<boolean>(false);
 	const [cartItems, setCartItems] = useState(loadProducts);
 
