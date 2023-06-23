@@ -1,4 +1,4 @@
-import { FC, createContext, useContext, useReducer } from "react";
+import { FC, createContext, useContext, useEffect, useReducer } from "react";
 import { Props, BooksStateTypes, BookProps } from "../types/types";
 import { initialArgs, bookReducer } from "./actions";
 
@@ -6,8 +6,16 @@ export const BookContext = createContext<BooksStateTypes | undefined>(
 	undefined
 );
 
+const init = () => {
+	return JSON.parse(localStorage.getItem("books")) || initialArgs;
+};
+
 const BookProvider: FC<Props> = ({ children }) => {
-	const [books, dispatch] = useReducer(bookReducer, initialArgs);
+	const [books, dispatch] = useReducer(bookReducer, initialArgs, init);
+
+	useEffect(() => {
+		localStorage.setItem("books", JSON.stringify(books));
+	}, [books]);
 
 	const handleAddBook = (book: BookProps) => {
 		dispatch({
