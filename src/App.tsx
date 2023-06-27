@@ -1,55 +1,60 @@
 import { Header } from "./ui/views/components/Header/Header";
-import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 let renderedCount = 0;
 export const App = () => {
 	renderedCount++;
+	const { register, handleSubmit, formState: { errors, dirtyFields, touchedFields, isSubmitted }, reset, watch } = useForm(
+		{
+			defaultValues: {
+				username: "",
+				password: "",
+				age: ""
+			}
+		}
+	);
 
-	const [formState, setFormState] = useState({
-		username: "",
-		password: "",
-		age: 0,
-	});
+	console.log("dirtyFields: ", dirtyFields);
+	console.log("touchedFields: ", touchedFields);
+	console.log("isSubmitted: ", isSubmitted);
+	const onSubmit = data => {
+		console.log(data);
+		reset();
+	}
 
-	const { username, password, age } = formState;
+	const usernameWatch = watch("username");
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log("formState", formState);
-	};
-
-	const handleChange = ({ target }: React.ChangeEvent<HTMLInputElement>) => {
-		const { name, value } = target;
-		setFormState({ ...formState, [name]: value });
-	};
 
 	return (
 		<>
 			<Header renderedCount={renderedCount} />
 			<h1>Login</h1>
-			<form onSubmit={handleSubmit}>
+			<form onSubmit={handleSubmit(onSubmit)}>
 				<input
-					type="string"
-					name="username"
-					value={username}
-					onChange={handleChange}
-					placeholder="Username"
+					{...register("username", {
+						required: true, minLength: {
+							value: 4,
+							message: "Minimun length is 4",
+						},
+						maxLength: {
+							value: 6,
+							message: "Maximum length is 6"
+						}
+					})}
+				/>
+				<p>{usernameWatch}</p>
+				{errors.username && <p>{errors?.username?.message}</p>}
+
+				<input
+					{...register("password", { required: true, pattern: /^[A-Za-z]+$/i })}
+
 				/>
 				<input
-					type="password"
-					name="password"
-					value={password}
-					onChange={handleChange}
-					placeholder="Password"
+					{...register("age", { valueAsNumber: true })}
+
 				/>
-				<input
-					type="number"
-					name="age"
-					value={age}
-					onChange={handleChange}
-					placeholder="Age"
-				/>
-				<button type="submit" disabled={false}>
+				<button type="submit" disabled={false}
+				>
 					Submit
 				</button>
 			</form>
