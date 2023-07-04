@@ -69,7 +69,7 @@ function SiteContextProvider(props) {
     // Remove from cart
     const removeFromCart = useMemo(() => {
         return (id) => {
-            const sofaInCart = cart.find((sofa) => sofa.id === id);
+            const sofaInCart = useMemo(() => { cart.find((sofa) => sofa.id === id) }, []);
             if (sofaInCart.count > 1) {
                 setCart((prevCart) =>
                     prevCart.map((sofaInCart) =>
