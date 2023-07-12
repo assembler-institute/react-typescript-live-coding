@@ -1,10 +1,21 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, lazy, Suspense, LazyExoticComponent, ComponentType } from "react";
 import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
-import { Thumb } from "./EmblaCarouselThumbsButton";
+// import Thumb from "./EmblaCarouselThumbsButton";
+
+const Thumb: LazyExoticComponent<ComponentType<any>> = lazy(() => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      return resolve(import("./EmblaCarouselThumbsButton"));
+    }, 3000);
+  });
+});
+
+// import("./EmblaCarouselThumbsButton"));
 
 import "../../styles/base.css";
 import "../../styles/embla.css";
 import "../../styles/sandbox.css";
+import MyLoader from "../../assets/skeleton/skeleton";
 
 type PropType = {
 	slides: number[];
@@ -76,7 +87,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 			<div className="embla__viewport" ref={emblaMainRef}>
 				<div className="embla__container">
 					{slides.map((index) => (
-						// Suspense
+						// <Suspense fallback={<div>Loading...</div>}>
 						<div className="embla__slide" key={index}>
 							<div className="embla__slide__number">
 								<span>{index + 1}</span>
@@ -87,6 +98,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 								alt="Your alt text"
 							/>
 						</div>
+						// </Suspense>
 					))}
 				</div>
 			</div>
@@ -95,14 +107,14 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
 				<div className="embla-thumbs__viewport" ref={emblaThumbsRef}>
 					<div className="embla-thumbs__container">
 						{slides.map((index) => (
-							// Suspense
-							<Thumb
-								onClick={() => onThumbClick(index)}
-								selected={index === selectedIndex}
-								index={index}
-								imgSrc={images[index]}
-								key={index}
-							/>
+							<Suspense key={index} fallback={<MyLoader />}>
+								<Thumb
+									onClick={() => onThumbClick(index)}
+									selected={index === selectedIndex}
+									index={index}
+									imgSrc={images[index]}
+								/>
+							</Suspense>
 						))}
 					</div>
 				</div>

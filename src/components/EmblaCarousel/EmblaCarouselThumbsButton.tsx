@@ -7,7 +7,7 @@ type PropType = {
 	onClick: () => void;
 };
 
-export const Thumb: React.FC<PropType> = (props) => {
+const Thumb: React.FC<PropType> = (props) => {
 	const { selected, imgSrc, index, onClick } = props;
 
 	return (
@@ -33,3 +33,5 @@ export const Thumb: React.FC<PropType> = (props) => {
 		</div>
 	);
 };
+
+export default Thumb;
